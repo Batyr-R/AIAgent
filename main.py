@@ -31,10 +31,61 @@ schema_get_files_info = genai.types.FunctionDeclaration(
         },
     ),
 )
+schema_get_file_content = genai.types.FunctionDeclaration(
+    name="get_file_content",
+    description="Gets required files content.",
+    parameters=genai.types.Schema(
+        type=genai.types.Type.OBJECT,
+        properties={
+            "file_path": genai.types.Schema(
+                type=genai.types.Type.STRING,
+                description="Relative path to the required file.",
+            ),
+        },
+    ),
+)
+
+schema_run_python_file = genai.types.FunctionDeclaration(
+    name="run_python_file",
+    description="Runs python file.",
+    parameters=genai.types.Schema(
+        type=genai.types.Type.OBJECT,
+        properties={
+            "file_path": genai.types.Schema(
+                type=genai.types.Type.STRING,
+                description="Path to the executed python file.",
+            ),
+
+        },
+    ),
+)
+
+schema_write_file = genai.types.FunctionDeclaration(
+    name="write_file",
+    description="Writes and overwrites files.",
+    parameters=genai.types.Schema(
+        type=genai.types.Type.OBJECT,
+        properties={
+            "file_path": genai.types.Schema(
+                type=genai.types.Type.STRING,
+                description="Path to the file being edited.",
+            ),
+            "content": genai.types.Schema(
+                type=genai.types.Type.STRING,
+                description="Content, that is being written."
+            )
+        },
+    ),
+)
+
+
 
 available_functions = genai.types.Tool(
     function_declarations=[
         schema_get_files_info,
+        schema_get_file_content,
+        schema_run_python_file,
+        schema_write_file,
     ]
 )
 
@@ -45,6 +96,9 @@ You are a helpful AI coding agent.
 When a user asks a question or makes a request, make a function call plan. You can perform the following operations:
 
 - List files and directories
+- Read file contents
+- Execute Python files with optional arguments
+- Write or overwrite files
 
 All paths you provide should be relative to the working directory. You do not need to specify the working directory in your function calls as it is automatically injected for security reasons.
 """
