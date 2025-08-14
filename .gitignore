@@ -1,11 +1,18 @@
-# Python-generated files
-__pycache__/
-*.py[oc]
-build/
-dist/
-wheels/
-*.egg-info
+# Virtual environment
+.venv/
 
-# Virtual environments
-.venv
+# Environment variables
 .env
+
+# Editor/IDE files
+.ropeproject
+
+# Python
+__pycache__/
+*.pyc
+
+# Dependency locks (optional)
+uv.lock
+
+# Operating System files
+.DS_Store
