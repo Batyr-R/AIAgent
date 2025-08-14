@@ -6,7 +6,7 @@
 
 ##  Description
 
-Why did I build this? Because Boot.dev told me to—and because machine sloths like me just can’t resist having AI do the debugging while I sip my coffee.  
+Why did I build this? Because Boot.dev told me to—and because machine sloths like me just can’t resist having AI do the debugging while I sip my coffee.
 This project scans your code, spots bugs, and attempts fixes using the Gemini 2.0 Flash model. That’s it. No magic, just AI (and some caffeine).
 
 The `calculator/` directory is just a toy project used for testing the AI — you can replace it with whatever code you actually want to debug.
@@ -19,8 +19,8 @@ Just clone it, install dependencies, and run it. No hand‑holding.
 
 ### Prerequisites
 
-- Python 3.x  
-- Access to Google Gemini 2.0 Flash (API keys or credentials).  
+- Python 3.x
+- Access to Google Gemini 2.0 Flash (API keys or credentials).
 - [uv](https://github.com/astral-sh/uv) installed.
 
 ### Installation
@@ -62,13 +62,3 @@ AIAgent/
 ```
 
 ---
-
-##  Contribute
-
-Want to help? Code is open—just open a PR or issue. Make it smarter. Make it faster. Make it not embarrass you in a job interview.
-
----
-
-##  License
-
-Put your preferred license here. MIT, GPL, or whatever — just pick something and move on.
