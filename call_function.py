@@ -3,6 +3,7 @@ from functions.get_files_info import get_files_info
 from functions.get_file_content import get_file_content
 from functions.run_python_file import run_python_file
 from functions.write_file import write_file
+from config import WORKING_DIR
 
 
 schema_get_files_info = types.FunctionDeclaration(
@@ -86,7 +87,7 @@ def call_function(function_call_part, verbose=False):
         print(f"Calling function: {function_call_part.name}({function_call_part.args})")
     else:
         print(f" - Calling function: {function_call_part.name}")
-    function_call_part.args["working_directory"] = "./calculator"
+    function_call_part.args["working_directory"] = WORKING_DIR
     if function_call_part.name not in spell_book:
         return types.Content(
             role="tool",
