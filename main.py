@@ -3,6 +3,12 @@ import sys
 from google import genai
 from dotenv import load_dotenv
 import argparse
+from google.genai import types
+
+from functions.get_files_info import get_files_info
+from functions.get_file_content import get_file_content
+from functions.run_python_file import run_python_file
+from functions.write_file import write_file
 
 load_dotenv()
 api_key = os.environ.get("GEMINI_API_KEY")
@@ -89,6 +95,40 @@ available_functions = genai.types.Tool(
     ]
 )
 
+spell_book = {
+        "get_files_info": get_files_info,
+        "get_file_content": get_file_content,
+        "run_python_file": run_python_file,
+        "write_file": write_file,
+    }
+
+def call_function(function_call_part, verbose=False):
+    if verbose == True:
+        print(f"Calling function: {function_call_part.name}({function_call_part.args})")
+    else:
+        print(f" - Calling function: {function_call_part.name}")
+    function_call_part.args["working_directory"] = "./calculator"
+    if function_call_part.name not in spell_book:
+        return types.Content(
+            role="tool",
+            parts=[
+                types.Part.from_function_response(
+                    name=function_call_part.name,
+                    response={"error": f"Unknown function: {function_call_part.name}"},
+                )
+            ],
+        )
+    result = spell_book[function_call_part.name](**function_call_part.args)
+    return types.Content(
+        role="tool",
+        parts=[
+            types.Part.from_function_response(
+                name=function_call_part.name,
+                response={"result": result},
+            )
+        ],
+    )
+
 prompt = arguments.prompt
 system_prompt = """
 You are a helpful AI coding agent.
@@ -118,6 +158,10 @@ if arguments.verbose:
 
 for p in response.candidates[0].content.parts:
     if p.function_call != None:
-            print(f"Calling function: {p.function_call.name}({p.function_call.args})")
+        content = call_function(p.function_call, arguments.verbose)
+        if content.parts[0].function_response.response != None and arguments.verbose:
+            print(f"-> {content.parts[0].function_response.response}")
+        else:
+            raise Exception("FATAL: u a bum")
     else:
         print(p.text)
